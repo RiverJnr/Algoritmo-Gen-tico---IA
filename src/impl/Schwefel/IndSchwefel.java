@@ -1,0 +1,111 @@
+package impl.Schwefel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import model.Individuo;
+
+public class IndSchwefel extends Individuo {
+
+    private List<Double> genes;
+
+    protected IndSchwefel(int dimensao) {
+        this.genes = new ArrayList<>();
+        for (int i = 0; i < dimensao; i++) {
+            Random gene = new Random();
+            Double alelo = -500 + 1000 * gene.nextDouble();
+            this.genes.add(alelo);
+        }
+    }
+
+    protected IndSchwefel(List<Double> genes) {
+        this.genes = genes;
+    }
+
+    @Override
+    public Double avaliar() {
+        Double fitness = 418.9829 * (this.genes.size());
+        Double sum = 0.0;
+        for (int i = 0; i < genes.size(); i++) {
+            sum += this.genes.get(i) * Math.sin(Math.sqrt(Math.abs(this.genes.get(i))));
+        }
+
+        fitness -= sum;
+
+        return fitness;
+    }
+
+    @Override
+    public List<Individuo> crossover(Individuo ind) {
+        Random rand = new Random();
+        IndSchwefel newInd = (IndSchwefel) ind;
+        List<Double> novoGeneP1 = new ArrayList<>(this.genes);
+        List<Double> novoGeneP2 = new ArrayList<>(newInd.getGenes());
+        Double alpha = 0.0;
+
+        for (int i = 0; i < novoGeneP1.size(); i++) {
+            alpha = rand.nextGaussian(0, 0.1);
+            Double genFilho = this.genes.get(i) + alpha * (Math.abs(this.genes.get(i) - newInd.getGenes().get(i)));
+            if (genFilho > 500) {
+                genFilho = 500.0;
+            }
+            if (genFilho < -500) {
+                genFilho = -500.0;
+            }
+            novoGeneP1.set(i, genFilho);
+        }
+
+        for (int i = 0; i < novoGeneP2.size(); i++) {
+            alpha = rand.nextGaussian(0, 0.1);
+            Double genFilho = newInd.getGenes().get(i)
+                    + alpha * (Math.abs(this.genes.get(i) - newInd.getGenes().get(i)));
+            if (genFilho > 500) {
+                genFilho = 500.0;
+            }
+            if (genFilho < -500) {
+                genFilho = -500.0;
+            }
+            novoGeneP2.set(i, genFilho);
+        }
+
+        // Criar os 2 objetos dos filhos e atribuilos na lista de retorno
+        List<Individuo> filhos = new ArrayList<>();
+        filhos.add(new IndSchwefel(novoGeneP1));
+        filhos.add(new IndSchwefel(novoGeneP2));
+        return filhos;
+    }
+
+    @Override
+    public Individuo getMutant() {
+        List<Double> novoGenes = new ArrayList<>(this.genes);
+        boolean isMutant = true;
+
+        Random rand = new Random();
+        for (int i = 0; i < this.genes.size(); i++) {
+            if (rand.nextDouble() < 0.1) {
+                novoGenes.set(i, novoGenes.get(i) + rand.nextGaussian());
+                if (isMutant) {
+                    isMutant = false;
+                }
+            }
+        }
+
+        if (isMutant) {
+            int index = rand.nextInt(this.genes.size());
+            novoGenes.set(index, novoGenes.get(index) + rand.nextGaussian());
+        }
+
+        return new IndSchwefel(novoGenes);
+    }
+
+    @Override
+    public List<Double> getGenes() {
+        return this.genes;
+    }
+
+    @Override
+    public String toString() {
+        return this.genes.toString();
+    }
+}
