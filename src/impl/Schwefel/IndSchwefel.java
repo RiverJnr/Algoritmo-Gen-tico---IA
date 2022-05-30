@@ -7,28 +7,24 @@ import model.Individuo;
 
 public class IndSchwefel extends Individuo {
 
-    List<Double> genes;
-
     protected IndSchwefel(int dimensao, Double maxDomain, Double minDomain) {
-        this.genes = this.getGenes();
         for (int i = 0; i < dimensao; i++) {
             Random gene = new Random();
             Double alelo = minDomain + 2 * maxDomain * gene.nextDouble();
-            this.genes.add(alelo);
+            this.setGenes(alelo);
         }
     }
 
-    protected IndSchwefel(List<Double> genes) {
-        this.genes = this.getGenes();
-        this.genes.addAll(genes);
+    protected IndSchwefel(List<Double> alelos) {
+        this.setGenes(alelos);
     }
 
     @Override
     public Double avaliar() {
-        Double fitness = 418.9829 * (this.genes.size());
+        Double fitness = 418.9829 * (this.getGenes().size());
         Double sum = 0.0;
-        for (int i = 0; i < genes.size(); i++) {
-            sum += this.genes.get(i) * Math.sin(Math.sqrt(Math.abs(this.genes.get(i))));
+        for (int i = 0; i < this.getGenes().size(); i++) {
+            sum += this.getGenes().get(i) * Math.sin(Math.sqrt(Math.abs(this.getGenes().get(i))));
         }
 
         fitness -= sum;
@@ -38,6 +34,6 @@ public class IndSchwefel extends Individuo {
 
     @Override
     public String toString() {
-        return this.genes.toString();
+        return this.getGenes().toString();
     }
 }

@@ -10,44 +10,45 @@ public abstract class Individuo implements Comparable<Individuo> {
 
     public abstract Double avaliar();
 
-   // public abstract List<Individuo> crossover(Individuo ind);
-   public List<List<Double>> crossover(Individuo ind, Double maxDomain, Double minDomain) {
-    Random rand = new Random();
-    List<Double> novoGeneP1 = new ArrayList<>(this.cromossomos);
-    List<Double> novoGeneP2 = new ArrayList<>(ind.getGenes());
-    Double alpha = 0.0;
+    // public abstract List<Individuo> crossover(Individuo ind);
+    public List<List<Double>> crossover(Individuo ind, Double maxDomain, Double minDomain) {
+        Random rand = new Random();
+        List<Double> novoGeneP1 = new ArrayList<>(this.cromossomos);
+        List<Double> novoGeneP2 = new ArrayList<>(ind.getGenes());
+        Double alpha = 0.0;
 
-    for (int i = 0; i < novoGeneP1.size(); i++) {
-        alpha = rand.nextGaussian(0, 0.1);
-        Double genFilho = this.cromossomos.get(i) + alpha * (Math.abs(this.cromossomos.get(i) - ind.getGenes().get(i)));
-        if (genFilho > maxDomain) {
-            genFilho = maxDomain;
+        for (int i = 0; i < novoGeneP1.size(); i++) {
+            alpha = rand.nextGaussian(0, 0.1);
+            Double genFilho = this.cromossomos.get(i)
+                    + alpha * (Math.abs(this.cromossomos.get(i) - ind.getGenes().get(i)));
+            if (genFilho > maxDomain) {
+                genFilho = maxDomain;
+            }
+            if (genFilho < minDomain) {
+                genFilho = minDomain;
+            }
+            novoGeneP1.set(i, genFilho);
         }
-        if (genFilho < minDomain) {
-            genFilho = minDomain;
+
+        for (int i = 0; i < novoGeneP2.size(); i++) {
+            alpha = rand.nextGaussian(0, 0.1);
+            Double genFilho = ind.getGenes().get(i)
+                    + alpha * (Math.abs(this.cromossomos.get(i) - ind.getGenes().get(i)));
+            if (genFilho > maxDomain) {
+                genFilho = maxDomain;
+            }
+            if (genFilho < minDomain) {
+                genFilho = minDomain;
+            }
+            novoGeneP2.set(i, genFilho);
         }
-        novoGeneP1.set(i, genFilho);
+
+        // Criar os 2 objetos dos filhos e atribuilos na lista de retorno
+        List<List<Double>> filhos = new ArrayList<>();
+        filhos.add(novoGeneP1);
+        filhos.add(novoGeneP2);
+        return filhos;
     }
-
-    for (int i = 0; i < novoGeneP2.size(); i++) {
-        alpha = rand.nextGaussian(0, 0.1);
-        Double genFilho = ind.getGenes().get(i)
-                + alpha * (Math.abs(this.cromossomos.get(i) - ind.getGenes().get(i)));
-        if (genFilho > maxDomain) {
-            genFilho = maxDomain;
-        }
-        if (genFilho < minDomain) {
-            genFilho = minDomain;
-        }
-        novoGeneP2.set(i, genFilho);
-    }
-
-    // Criar os 2 objetos dos filhos e atribuilos na lista de retorno
-    List<List<Double>> filhos = new ArrayList<>();
-    filhos.add(novoGeneP1);
-    filhos.add(novoGeneP2);
-    return filhos;
-}
 
     public List<Double> getMutant() {
         List<Double> novoGenes = new ArrayList<>(this.cromossomos);
@@ -70,18 +71,26 @@ public abstract class Individuo implements Comparable<Individuo> {
 
         return novoGenes;
     }
-    
+
     public Double getAvaliacao() {
         if (this.avaliacao == null) {
             this.avaliacao = this.avaliar();
         }
         return this.avaliacao;
     }
-    
+
     public List<Double> getGenes() {
         return this.cromossomos;
     }
-    
+
+    public void setGenes(Double alelo) {
+        this.cromossomos.add(alelo);
+    }
+
+    public void setGenes(List<Double> alelos) {
+        this.cromossomos.addAll(alelos);
+    }
+
     @Override
     public int compareTo(Individuo ind) {
         if (this.getAvaliacao() > ind.getAvaliacao()) {
