@@ -10,9 +10,9 @@ import model.IndividuoFactory;
 
 public class Ag {
     public Individuo executar(int nPop, IndividuoFactory indFactory,
-                              int nGeracoes, Double minGlobal,
-                              Double maxDomain,
-                              Double minDomain) {
+            int nGeracoes, Double minGlobal,
+            Double maxDomain,
+            Double minDomain) {
         List<Individuo> popTotal;
         List<Individuo> popPais = new ArrayList<>();
         List<Individuo> popFilhos;
