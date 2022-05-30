@@ -1,5 +1,4 @@
 import engine.Ag;
-import engine.Ag;
 import impl.CrossInTray.IndCrossInTrayFactory;
 import impl.DixonPrice.IndDixonPriceFactory;
 import impl.Schwefel.IndSchwefelFactory;
