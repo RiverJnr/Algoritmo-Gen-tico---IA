@@ -1,4 +1,5 @@
 import engine.Ag;
+import engine.Ag;
 import impl.CrossInTray.IndCrossInTrayFactory;
 import impl.DixonPrice.IndDixonPriceFactory;
 import impl.Schwefel.IndSchwefelFactory;
@@ -17,13 +18,13 @@ public class AgRunner {
         Ag algGenetico = new Ag();
 
         Individuo melhorCombinacao;
-        melhorCombinacao = algGenetico.executar(nPop, indSchwefelFactory, nGeracoes, 0.0);
+        melhorCombinacao = algGenetico.executar(nPop, indSchwefelFactory, nGeracoes, 0.0, 500.0, -500.0);
         printMelhorInd(melhorCombinacao, "Schwefel Function");
 
-        melhorCombinacao = algGenetico.executar(nPop, indCrossInTrayFactory, nGeracoes, -2.06262);
+        melhorCombinacao = algGenetico.executar(nPop, indCrossInTrayFactory, nGeracoes, -2.06262, 10.0, -10.0);
         printMelhorInd(melhorCombinacao, "Cross-In-Tray Function");
 
-        melhorCombinacao = algGenetico.executar(nPop, indDixonPriceFactory, nGeracoes, 0.0);
+        melhorCombinacao = algGenetico.executar(nPop, indDixonPriceFactory, nGeracoes, 0.0, 10.0, -10.0);
         printMelhorInd(melhorCombinacao, "Dixon-Price Function");
 
     }

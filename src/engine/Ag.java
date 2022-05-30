@@ -9,7 +9,10 @@ import model.Individuo;
 import model.IndividuoFactory;
 
 public class Ag {
-    public Individuo executar(int nPop, IndividuoFactory indFactory, int nGeracoes, Double minGlobal) {
+    public Individuo executar(int nPop, IndividuoFactory indFactory,
+                              int nGeracoes, Double minGlobal,
+                              Double maxDomain,
+                              Double minDomain) {
         List<Individuo> popTotal;
         List<Individuo> popPais = new ArrayList<>();
         List<Individuo> popFilhos;
@@ -18,7 +21,7 @@ public class Ag {
 
         // População inicial
         for (int i = 0; i < nPop; i++) {
-            Individuo individuo = indFactory.getIndividuo();
+            Individuo individuo = indFactory.getIndividuo(maxDomain, minDomain);
             popPais.add(individuo);
         }
 
@@ -32,7 +35,8 @@ public class Ag {
 
             // Mutantes
             for (int i = 0; i < popPais.size(); i++) {
-                popMutantes.add(popPais.get(i).getMutant());
+                List<Double> novosGenes = popPais.get(i).getMutant();
+                popMutantes.add(indFactory.getIndividuo(novosGenes));
             }
             popTotal.addAll(popMutantes);
 
@@ -45,7 +49,10 @@ public class Ag {
                 while (index1 == index2) {
                     index2 = rand.nextInt(popPais.size());
                 }
-                popFilhos.addAll(popPais.get(index1).crossover(popPais.get(index2)));
+                List<List<Double>> novosGenes = popPais.get(index1).crossover(popPais.get(index2), maxDomain,
+                        minDomain);
+                popFilhos.add((Individuo) indFactory.getIndividuo(novosGenes.get(0)));
+                popFilhos.add((Individuo) indFactory.getIndividuo(novosGenes.get(1)));
 
                 // Nao mudar o indice
                 if (index1 <= index2) {
@@ -61,7 +68,7 @@ public class Ag {
             // Avaliando cada individuo
             boolean parada = false;
             for (int i = 0; i < popTotal.size(); i++) {
-                if (popTotal.get(i).getAvaliacao() == 0) {
+                if (popTotal.get(i).getAvaliacao() == minGlobal) {
                     parada = true;
                     indPerfeito = popTotal.get(i);
                     break;
