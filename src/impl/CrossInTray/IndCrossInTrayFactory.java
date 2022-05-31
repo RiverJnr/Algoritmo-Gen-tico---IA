@@ -15,13 +15,13 @@ public class IndCrossInTrayFactory implements IndividuoFactory {
 
     @Override
     public Individuo getIndividuo(Double maxDomain, Double minDomain) {
-        IndCrossInTray ind = new IndCrossInTray(this.dimensao, maxDomain, minDomain);
+        Individuo ind = IndCrossInTray.getIndividuo(this.dimensao, maxDomain, minDomain);
         return ind;
     }
 
     @Override
     public Individuo getIndividuo(List<Double> genes) {
-        IndCrossInTray ind = new IndCrossInTray(genes);
+        Individuo ind = IndCrossInTray.getIndividuo(genes);
         return ind;
     }
 }

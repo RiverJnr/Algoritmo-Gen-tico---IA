@@ -15,13 +15,13 @@ public class IndSchwefelFactory implements IndividuoFactory {
 
     @Override
     public Individuo getIndividuo(Double maxDomain, Double minDomain) {
-        IndSchwefel ind = new IndSchwefel(this.dimensao, maxDomain, minDomain);
+        Individuo ind = IndSchwefel.getIndividuo(this.dimensao, maxDomain, minDomain);
         return ind;
     }
 
     @Override
     public Individuo getIndividuo(List<Double> genes) {
-        IndSchwefel ind = new IndSchwefel(genes);
+        Individuo ind = IndSchwefel.getIndividuo(genes);
         return ind;
     }
 }

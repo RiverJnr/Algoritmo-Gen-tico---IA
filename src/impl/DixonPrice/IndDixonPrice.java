@@ -7,7 +7,7 @@ import model.Individuo;
 
 public class IndDixonPrice extends Individuo {
 
-    protected IndDixonPrice(int dimensao, Double maxDomain, Double minDomain) {
+    private IndDixonPrice(int dimensao, Double maxDomain, Double minDomain) {
         for (int i = 0; i < dimensao; i++) {
             Random gene = new Random();
             Double alelo = minDomain + 2 * maxDomain * gene.nextDouble();
@@ -15,8 +15,18 @@ public class IndDixonPrice extends Individuo {
         }
     }
 
-    protected IndDixonPrice(List<Double> alelos) {
+    private IndDixonPrice(List<Double> alelos) {
         this.setGenes(alelos);
+    }
+
+    protected static Individuo getIndividuo(int dimensao, Double maxDomain, Double minDomain) {
+        IndDixonPrice ind = new IndDixonPrice(dimensao, maxDomain, minDomain);
+        return ind;
+    }
+    
+    protected static Individuo getIndividuo(List<Double> genes) {
+        IndDixonPrice ind = new IndDixonPrice(genes);
+        return ind;
     }
 
     @Override

@@ -15,13 +15,13 @@ public class IndDixonPriceFactory implements IndividuoFactory {
 
     @Override
     public Individuo getIndividuo(Double maxDomain, Double minDomain) {
-        IndDixonPrice ind = new IndDixonPrice(this.dimensao, maxDomain, minDomain);
+        Individuo ind = IndDixonPrice.getIndividuo(this.dimensao, maxDomain, minDomain);
         return ind;
     }
 
     @Override
     public Individuo getIndividuo(List<Double> genes) {
-        IndDixonPrice ind = new IndDixonPrice(genes);
+        Individuo ind = IndDixonPrice.getIndividuo(genes);
         return ind;
     }
 }

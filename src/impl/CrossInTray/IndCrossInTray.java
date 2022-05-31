@@ -7,7 +7,7 @@ import model.Individuo;
 
 public class IndCrossInTray extends Individuo {
 
-    protected IndCrossInTray(int dimensao, Double maxDomain, Double minDomain) {
+    private IndCrossInTray(int dimensao, Double maxDomain, Double minDomain) {
         if (dimensao <= 2) {
             for (int i = 0; i < dimensao; i++) {
                 Random gene = new Random();
@@ -17,8 +17,18 @@ public class IndCrossInTray extends Individuo {
         }
     }
 
-    protected IndCrossInTray(List<Double> alelos) {
+    private IndCrossInTray(List<Double> alelos) {
         this.setGenes(alelos);
+    }
+
+    protected static Individuo getIndividuo(int dimensao, Double maxDomain, Double minDomain) {
+        IndCrossInTray ind = new IndCrossInTray(dimensao, maxDomain, minDomain);
+        return ind;
+    }
+    
+    protected static Individuo getIndividuo(List<Double> genes) {
+        IndCrossInTray ind = new IndCrossInTray(genes);
+        return ind;
     }
 
     @Override

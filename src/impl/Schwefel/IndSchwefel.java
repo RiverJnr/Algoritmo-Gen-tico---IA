@@ -7,7 +7,7 @@ import model.Individuo;
 
 public class IndSchwefel extends Individuo {
 
-    protected IndSchwefel(int dimensao, Double maxDomain, Double minDomain) {
+    private IndSchwefel(int dimensao, Double maxDomain, Double minDomain) {
         for (int i = 0; i < dimensao; i++) {
             Random gene = new Random();
             Double alelo = minDomain + 2 * maxDomain * gene.nextDouble();
@@ -15,8 +15,18 @@ public class IndSchwefel extends Individuo {
         }
     }
 
-    protected IndSchwefel(List<Double> alelos) {
+    private IndSchwefel(List<Double> alelos) {
         this.setGenes(alelos);
+    }
+
+    protected static Individuo getIndividuo(int dimensao, Double maxDomain, Double minDomain) {
+        IndSchwefel ind = new IndSchwefel(dimensao, maxDomain, minDomain);
+        return ind;
+    }
+    
+    protected static Individuo getIndividuo(List<Double> genes) {
+        IndSchwefel ind = new IndSchwefel(genes);
+        return ind;
     }
 
     @Override
